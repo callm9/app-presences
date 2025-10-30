@@ -1,92 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de Présence - Centre de Soutien</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>App Présences - Minimal</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📚 Centre de Soutien Scolaire</h1>
-            <p>Gestion des présences et paiements</p>
-        </header>
+  <main class="container">
+    <h1>App Présences (portable)</h1>
 
-        <nav class="main-nav">
-            <a href="index.html" class="nav-link active">Accueil</a>
-            <a href="groupes.html" class="nav-link">Groupes</a>
-            <a href="eleves.html" class="nav-link">Élèves</a>
-            <a href="presence.html" class="nav-link">Présences</a>
-            <a href="paiement.html" class="nav-link">Paiements</a>
-        </nav>
-
-        <main>
-            <div class="dashboard">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>Groupes Actifs</h3>
-                        <div class="stat-number" id="groupes-count">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Élèves Inscrits</h3>
-                        <div class="stat-number" id="eleves-count">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Paiements ce Mois</h3>
-                        <div class="stat-number" id="paiements-count">0</div>
-                    </div>
-                </div>
-
-                <div class="quick-actions">
-                    <h2>Actions Rapides</h2>
-                    <div class="actions-grid">
-                        <a href="presence.html" class="action-card">
-                            <span class="action-icon">📝</span>
-                            <span>Prendre les présences</span>
-                        </a>
-                        <a href="eleves.html" class="action-card">
-                            <span class="action-icon">👨‍🎓</span>
-                            <span>Ajouter un élève</span>
-                        </a>
-                        <a href="paiement.html" class="action-card">
-                            <span class="action-icon">💳</span>
-                            <span>Enregistrer un paiement</span>
-                        </a>
-                        <a href="groupes.html" class="action-card">
-                            <span class="action-icon">👥</span>
-                            <span>Créer un groupe</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <div class="controls">
+      <input id="file-input" type="file" accept=".json" />
+      <button id="save-btn" disabled>Sauvegarder JSON</button>
+      <button id="csv-btn" disabled>Exporter CSV</button>
+      <button id="new-btn">Nouveau</button>
     </div>
-<script src="js/file-loader.js"></script>
-<script src="js/file-manager.js"></script>
-<script src="js/app.js"></script>
 
+    <section id="editor" class="panel hidden">
+      <h2>Élèves</h2>
+      <table id="table">
+        <thead>
+          <tr><th>Id</th><th>Nom</th><th>Prénom</th><th>Présent</th><th>Action</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
 
+      <form id="add-form" class="add-form">
+        <input id="id" placeholder="id" required />
+        <input id="nom" placeholder="Nom" required />
+        <input id="prenom" placeholder="Prénom" required />
+        <label><input id="present" type="checkbox"> Présent</label>
+        <button type="submit">Ajouter</button>
+      </form>
+    </section>
 
-<!-- À LA FIN de index.html, APRÈS les autres scripts -->
-<script>
-// Chargement automatique au démarrage
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🔍 Vérification des données...');
-    
-    // Vérifier si des données existent
-    const eleves = fileManager.loadData('eleves.json', []);
-    const groupes = fileManager.loadData('groupes.json', []);
-    
-    if (eleves.length === 0 && groupes.length === 0) {
-        console.log('📝 Aucune donnée trouvée - Redirection vers chargeur');
-        setTimeout(() => {
-            if (confirm('Aucune donnée trouvée. Voulez-vous charger vos fichiers ?')) {
-                location.href = 'charger-donnees.html';
-            }
-        }, 1000);
-    }
-});
-</script>
+    <section id="empty" class="panel">
+      <p>Chargez un fichier JSON de données (ex: <code>sample-data.json</code>) ou cliquez "Nouveau" pour créer une liste vide.</p>
+    </section>
+
+    <footer>
+      <small>Fichier JSON local • Pas de serveur requis</small>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>

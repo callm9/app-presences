@@ -1,0 +1,5 @@
+[
+  {"id":"1","nom":"Dupont","prenom":"Jean","present":false},
+  {"id":"2","nom":"Martin","prenom":"Claire","present":true},
+  {"id":"3","nom":"Nguyen","prenom":"Linh","present":false}
+]
