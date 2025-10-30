@@ -3,47 +3,119 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>App Présences - Minimal</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Centre Bourguiba — Tableau de bord</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <main class="container">
-    <h1>App Présences (portable)</h1>
-
-    <div class="controls">
-      <input id="file-input" type="file" accept=".json" />
-      <button id="save-btn" disabled>Sauvegarder JSON</button>
-      <button id="csv-btn" disabled>Exporter CSV</button>
-      <button id="new-btn">Nouveau</button>
+  <header class="header">
+    <div class="container">
+      <h1>Centre Bourguiba</h1>
+      <nav class="nav">
+        <a href="index.html" class="active">Tableau de bord</a>
+        <a href="groupes.html">Groupes</a>
+        <a href="eleves.html">Élèves</a>
+        <a href="presence.html">Présences</a>
+        <a href="paiement.html">Paiements</a>
+      </nav>
     </div>
+  </header>
 
-    <section id="editor" class="panel hidden">
-      <h2>Élèves</h2>
-      <table id="table">
-        <thead>
-          <tr><th>Id</th><th>Nom</th><th>Prénom</th><th>Présent</th><th>Action</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+  <main class="container">
+    <section id="dashboard">
+      <div class="cards">
+        <div class="card">
+          <h3 id="count-groupes">—</h3>
+          <p>Groupes</p>
+        </div>
+        <div class="card">
+          <h3 id="count-eleves">—</h3>
+          <p>Élèves</p>
+        </div>
+        <div class="card">
+          <h3 id="count-paiements">—</h3>
+          <p>Paiements ce mois</p>
+        </div>
+        <div class="card">
+          <h3 id="etat">—</h3>
+          <p>État général</p>
+        </div>
+      </div>
 
-      <form id="add-form" class="add-form">
-        <input id="id" placeholder="id" required />
-        <input id="nom" placeholder="Nom" required />
-        <input id="prenom" placeholder="Prénom" required />
-        <label><input id="present" type="checkbox"> Présent</label>
-        <button type="submit">Ajouter</button>
-      </form>
+      <div class="actions">
+        <button id="import-all">Importer données (JSON)</button>
+        <button id="export-all">Exporter données (JSON)</button>
+      </div>
+
+      <section id="recent" class="panel">
+        <h2>Récapitulatif</h2>
+        <ul id="recap-list"></ul>
+      </section>
     </section>
-
-    <section id="empty" class="panel">
-      <p>Chargez un fichier JSON de données (ex: <code>sample-data.json</code>) ou cliquez "Nouveau" pour créer une liste vide.</p>
-    </section>
-
-    <footer>
-      <small>Fichier JSON local • Pas de serveur requis</small>
-    </footer>
   </main>
 
-  <script src="app.js"></script>
+  <footer class="container">
+    <small>Application locale — aucun serveur requis</small>
+  </footer>
+
+  <script src="js/file-manager.js"></script>
+  <script>
+  (function(){
+    const fm = window.FileManager;
+    function refresh(){
+      const groupes = fm.get('groupes') || [];
+      const eleves = fm.get('eleves') || [];
+      const paiements = fm.get('paiements') || [];
+      document.getElementById('count-groupes').textContent = groupes.length;
+      document.getElementById('count-eleves').textContent = eleves.length;
+      const now = new Date();
+      const month = now.getMonth()+1; const year = now.getFullYear();
+      const totalThisMonth = paiements.filter(p=>Number(p.mois)===month && Number(p.annee)===year).reduce((s,p)=>s+Number(p.montant||0),0);
+      document.getElementById('count-paiements').textContent = totalThisMonth + ' TND';
+      // état basique : nombre d'élèves sans paiement ce mois (approx)
+      const paidThisMonthIds = paiements.filter(p=>Number(p.mois)===month && Number(p.annee)===year).map(p=>p.eleveId);
+      const uniquePaid = [...new Set(paidThisMonthIds)];
+      const impayes = Math.max(0, eleves.length - uniquePaid.length);
+      document.getElementById('etat').textContent = impayes>0 ? impayes + ' impayés' : 'Bon';
+      // recap
+      const recap = [];
+      recap.push('Dernière sauvegarde: ' + (localStorage.getItem('cb_lastSave')||'—'));
+      recap.push('Groupes actifs: ' + groupes.length);
+      recap.push('Élèves inscrits: ' + eleves.length);
+      const ul = document.getElementById('recap-list'); ul.innerHTML = '';
+      recap.forEach(r=>{ const li=document.createElement('li'); li.textContent=r; ul.appendChild(li); });
+    }
+
+    document.getElementById('import-all').addEventListener('click', ()=>{
+      const input = document.createElement('input'); input.type='file'; input.accept='.json';
+      input.onchange = e=>{
+        const f = e.target.files[0]; if(!f) return;
+        const r = new FileReader(); r.onload = ev=>{
+          try{ const obj = JSON.parse(ev.target.result); if(obj){ fm.importJSON(obj); alert('Import OK'); refresh(); }}
+          catch(err){alert('JSON invalide: '+err.message);}
+        };
+        r.readAsText(f,'utf-8');
+      };
+      input.click();
+    });
+
+    document.getElementById('export-all').addEventListener('click', ()=>{
+      fm.exportZip('centre-bourguiba-data.json');
+    });
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      if(typeof window.FileManager === 'undefined'){
+        // file-manager non présent : create defaults
+        if(!localStorage.getItem('cb_groupes')) localStorage.setItem('cb_groupes','[]');
+        if(!localStorage.getItem('cb_eleves')) localStorage.setItem('cb_eleves','[]');
+        if(!localStorage.getItem('cb_paiements')) localStorage.setItem('cb_paiements','[]');
+      } else {
+        if(!fm.get('groupes')) fm.set('groupes', []);
+        if(!fm.get('eleves')) fm.set('eleves', []);
+        if(!fm.get('paiements')) fm.set('paiements', []);
+      }
+      refresh();
+    });
+  })();
+  </script>
 </body>
 </html>
