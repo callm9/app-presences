@@ -1,0 +1,30 @@
+[
+  {
+    "id": "mhdcd49mluxw0133cw",
+    "nom": "Ahmed Benali",
+    "groupeId": "mhdcd49msd7rw9k0an",
+    "telephone": "0612345678",
+    "mensualite": 300
+  },
+  {
+    "id": "mhdcd49m1jci39yhm87",
+    "nom": "Fatima Zohra",
+    "groupeId": "mhdcd49msd7rw9k0an",
+    "telephone": "0623456789",
+    "mensualite": 300
+  },
+  {
+    "nom": "yryrytr",
+    "groupeId": "mhdcd49msd7rw9k0an",
+    "telephone": "1111122",
+    "mensualite": 11111,
+    "id": "mhdcdppmwgvzx5sv5eo"
+  },
+  {
+    "nom": "yyyyy",
+    "groupeId": "mhdcd49msd7rw9k0an",
+    "telephone": "2222",
+    "mensualite": 1245,
+    "id": "mhdchla7o9a5nun72rr"
+  }
+]

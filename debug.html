@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Données</title>
+</head>
+<body>
+    <h1>🔍 Debug Données</h1>
+    
+    <script src="js/file-manager.js"></script>
+    <script>
+        console.log('=== DEBUG DONNÉES ===');
+        
+        const groupes = fileManager.loadData('groupes.json', []);
+        const eleves = fileManager.loadData('eleves.json', []);
+        const paiements = fileManager.loadData('paiements.json', []);
+        
+        console.log('Groupes:', groupes);
+        console.log('Élèves:', eleves); 
+        console.log('Paiements:', paiements);
+        
+        document.body.innerHTML += `
+            <h2>Groupes: ${groupes.length}</h2>
+            <pre>${JSON.stringify(groupes, null, 2)}</pre>
+            
+            <h2>Élèves: ${eleves.length}</h2>
+            <pre>${JSON.stringify(eleves, null, 2)}</pre>
+            
+            <h2>Paiements: ${paiements.length}</h2>
+            <pre>${JSON.stringify(paiements, null, 2)}</pre>
+        `;
+    </script>
+</body>
+</html>

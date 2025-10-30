@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Présence - Centre de Soutien</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Centre de Soutien Scolaire</h1>
+            <p>Gestion des présences et paiements</p>
+        </header>
+
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link active">Accueil</a>
+            <a href="groupes.html" class="nav-link">Groupes</a>
+            <a href="eleves.html" class="nav-link">Élèves</a>
+            <a href="presence.html" class="nav-link">Présences</a>
+            <a href="paiement.html" class="nav-link">Paiements</a>
+        </nav>
+
+        <main>
+            <div class="dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Groupes Actifs</h3>
+                        <div class="stat-number" id="groupes-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Élèves Inscrits</h3>
+                        <div class="stat-number" id="eleves-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Paiements ce Mois</h3>
+                        <div class="stat-number" id="paiements-count">0</div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h2>Actions Rapides</h2>
+                    <div class="actions-grid">
+                        <a href="presence.html" class="action-card">
+                            <span class="action-icon">📝</span>
+                            <span>Prendre les présences</span>
+                        </a>
+                        <a href="eleves.html" class="action-card">
+                            <span class="action-icon">👨‍🎓</span>
+                            <span>Ajouter un élève</span>
+                        </a>
+                        <a href="paiement.html" class="action-card">
+                            <span class="action-icon">💳</span>
+                            <span>Enregistrer un paiement</span>
+                        </a>
+                        <a href="groupes.html" class="action-card">
+                            <span class="action-icon">👥</span>
+                            <span>Créer un groupe</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script src="js/file-loader.js"></script>
+<script src="js/file-manager.js"></script>
+<script src="js/app.js"></script>
+
+
+
+<!-- À LA FIN de index.html, APRÈS les autres scripts -->
+<script>
+// Chargement automatique au démarrage
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔍 Vérification des données...');
+    
+    // Vérifier si des données existent
+    const eleves = fileManager.loadData('eleves.json', []);
+    const groupes = fileManager.loadData('groupes.json', []);
+    
+    if (eleves.length === 0 && groupes.length === 0) {
+        console.log('📝 Aucune donnée trouvée - Redirection vers chargeur');
+        setTimeout(() => {
+            if (confirm('Aucune donnée trouvée. Voulez-vous charger vos fichiers ?')) {
+                location.href = 'charger-donnees.html';
+            }
+        }, 1000);
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Charger les Données</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>📁 Charger les Données</h1>
+    
+    <div>
+        <button onclick="chargerFichier('groupes.json')">📂 Charger groupes.json</button>
+        <button onclick="chargerFichier('eleves.json')">📂 Charger eleves.json</button>
+        <button onclick="chargerFichier('paiements.json')">📂 Charger paiements.json</button>
+    </div>
+    
+    <div id="resultat"></div>
+    
+    <script src="js/file-manager.js"></script>
+    <script>
+        async function chargerFichier(nomFichier) {
+            const resultat = document.getElementById('resultat');
+            
+            try {
+                resultat.innerHTML = `<p>⏳ Chargement de ${nomFichier}...</p>`;
+                
+                const data = await fileManager.loadFile(nomFichier);
+                fileManager.saveData(nomFichier, data);
+                
+                resultat.innerHTML = `
+                    <p class="success">✅ ${nomFichier} chargé avec succès !</p>
+                    <p><strong>${data.length}</strong> éléments chargés</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+                
+                console.log(`${nomFichier} chargé:`, data);
+                
+            } catch (error) {
+                resultat.innerHTML = `<p class="error">❌ Erreur: ${error.message}</p>`;
+                console.error('Erreur chargement:', error);
+            }
+        }
+        
+        // Vérifier les données actuelles
+        console.log('=== DONNÉES ACTUELLES ===');
+        console.log('Groupes:', fileManager.loadData('groupes.json', []));
+        console.log('Élèves:', fileManager.loadData('eleves.json', []));
+        console.log('Paiements:', fileManager.loadData('paiements.json', []));
+    </script>
+    
+    <div style="margin-top: 30px;">
+        <button onclick="location.href='index.html'" style="background: #28a745; color: white;">
+            ➡️ Aller à l'application
+        </button>
+    </div>
+</body>
+</html>

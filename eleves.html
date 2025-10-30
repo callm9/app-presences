@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Élèves</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👨‍🎓 Gestion des Élèves</h1>
+            <a href="index.html" class="btn-back">← Retour</a>
+        </header>
+
+        <div class="crud-section">
+            <div class="crud-header">
+                <h2>Liste des Élèves</h2>
+                <button class="btn-primary" onclick="openEleveModal()">+ Nouvel Élève</button>
+            </div>
+
+            <div class="table-container">
+                <table id="eleves-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom Complet</th>
+                            <th>Groupe</th>
+                            <th>Téléphone</th>
+                            <th>Mensualité</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eleves-tbody">
+                        <!-- Les élèves seront ajoutés ici -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour ajouter/modifier un élève -->
+    <div id="eleveModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEleveModal()">&times;</span>
+            <h3 id="modal-eleve-title">Nouvel Élève</h3>
+            <form id="eleve-form">
+                <input type="hidden" id="eleve-id">
+                <div class="form-group">
+                    <label for="eleve-nom">Nom complet:</label>
+                    <input type="text" id="eleve-nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="eleve-groupe">Groupe:</label>
+                    <select id="eleve-groupe" required>
+                        <option value="">Sélectionner un groupe</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eleve-telephone">Téléphone:</label>
+                    <input type="tel" id="eleve-telephone">
+                </div>
+                <div class="form-group">
+                    <label for="eleve-mensualite">Mensualité (DH):</label>
+                    <input type="number" id="eleve-mensualite" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closeEleveModal()">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ORDRE CORRECT DES SCRIPTS -->
+<script src="js/file-loader.js"></script>
+    <script src="js/file-manager.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/eleves.js"></script>
+</body>
+</html>

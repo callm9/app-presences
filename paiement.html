@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi des Paiements</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💳 Suivi des Paiements</h1>
+            <a href="index.html" class="btn-back">← Retour</a>
+        </header>
+
+        <div class="crud-section">
+            <div class="crud-header">
+                <h2>Paiements des Mensualités</h2>
+                <button class="btn-primary" onclick="openPaiementModal()">+ Nouveau Paiement</button>
+            </div>
+
+            <div class="filter-group">
+                <label for="filter-eleve">Filtrer par élève:</label>
+                <select id="filter-eleve" onchange="loadPaiements()">
+                    <option value="">Tous les élèves</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table id="paiements-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Élève</th>
+                            <th>Mois</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paiements-tbody">
+                        <!-- Les paiements seront ajoutés ici -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour ajouter un paiement -->
+    <div id="paiementModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePaiementModal()">&times;</span>
+            <h3>Nouveau Paiement</h3>
+            <form id="paiement-form">
+                <div class="form-group">
+                    <label for="paiement-eleve">Élève:</label>
+                    <select id="paiement-eleve" required>
+                        <option value="">Sélectionner un élève</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="paiement-mois">Mois:</label>
+                    <select id="paiement-mois" required>
+                        <option value="1">Janvier</option>
+                        <option value="2">Février</option>
+                        <option value="3">Mars</option>
+                        <option value="4">Avril</option>
+                        <option value="5">Mai</option>
+                        <option value="6">Juin</option>
+                        <option value="7">Juillet</option>
+                        <option value="8">Août</option>
+                        <option value="9">Septembre</option>
+                        <option value="10">Octobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Décembre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="paiement-annee">Année:</label>
+                    <input type="number" id="paiement-annee" value="2024" required>
+                </div>
+                <div class="form-group">
+                    <label for="paiement-montant">Montant (DH):</label>
+                    <input type="number" id="paiement-montant" required>
+                </div>
+                <div class="form-group">
+                    <label for="paiement-date">Date de paiement:</label>
+                    <input type="date" id="paiement-date" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="closePaiementModal()">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!-- À LA FIN DU FICHIER -->
+<script src="js/file-loader.js"></script>
+<script src="js/file-manager.js"></script>
+<script src="js/app.js"></script>
+<script src="js/paiement.js"></script>
+</body>
+</html>

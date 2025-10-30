@@ -1,0 +1,33 @@
+[
+  {
+    "id": "mhdby3owygfnzunwffd",
+    "numero": 3,
+    "matiere": "Mathématiques",
+    "professeur": "Monsieur Chaieb",
+    "horaires": [
+      {
+        "jour": "L",
+        "heureDebut": "16:00",
+        "heureFin": "18:00"
+      },
+      {
+        "jour": "J",
+        "heureDebut": "18:10",
+        "heureFin": "20:15"
+      }
+    ]
+  },
+  {
+    "numero": 2,
+    "matiere": "ttt",
+    "professeur": "tttt",
+    "horaires": [
+      {
+        "jour": "L",
+        "heureDebut": "16:00",
+        "heureFin": "18:00"
+      }
+    ],
+    "id": "mhdm1dkg4flnguntofg"
+  }
+]
